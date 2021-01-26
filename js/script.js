@@ -45,6 +45,12 @@ function showPage(list, page) {
 }
 showPage(data, 1);
 
+
+/*
+Create the `addPagination` function
+This function will create and insert/append the elements needed for the pagination buttons
+*/
+
 function paginationButton(list) {
    console.log(list);
    let numberValue = Math.ceil(list.length / 9);
@@ -72,15 +78,7 @@ selectUL.addEventListener('click', () => {
    }
 });
 
-paginationButton(data);
-
-
-
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
-
-
-
 // Call functions
+
+paginationButton(data);
+showPage(data, 1);
