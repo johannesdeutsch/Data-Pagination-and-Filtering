@@ -55,6 +55,7 @@ function paginationButton(list) {
    console.log(list);
    let numberValue = Math.ceil(list.length / 9);
    let selectUL = document.querySelector(".link-list");
+   console.log(numberValue);
    selectUL.innerHTML = "";
    for (let i = 1; i <= numberValue; i++) {
       let createButton = `
@@ -63,20 +64,23 @@ function paginationButton(list) {
       </li>
       `;
       selectUL.insertAdjacentHTML('beforeend', createButton);
-      let selectButton = document.querySelector('button');
-      selectButton.className = 'active';
    }
-}
-paginationButton(data);
+   let selectButton = document.querySelector('button');
+   selectButton.className = 'active';
+   console.log(selectButton);
+   // create an Event Listener
 
-// create an Event Listener
-selectUL.addEventListener('click', () => {
-   if(EventTarget.tagName === button) {
-      selectButton = document.querySelector('.active').className = '';
-      EventTarget.className = 'active';
-      showPage(list, EventTarget.textContent);
-   }
-});
+   selectUL.addEventListener('click', () => {
+      if(EventTarget.tagName === 'BUTTON') {
+         let selectButton = document.querySelector('.active');
+         selectButton.className = '';
+         EventTarget.className = 'active';
+         showPage(list, EventTarget.textContent);
+         console.log(selectButton);
+      }
+   });
+}
+
 
 // Call functions
 
