@@ -14,18 +14,27 @@ For assistance:
 
 
 /*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
+Function, that displays a page of nine students from the data.js array
 */
 function showPage(list, page) {
    console.log(list);
    console.log(page);
+   
+   // two variables that calculate the index for the first and the last student to display on the page
+   
    let startIndex = (page * 9) - 9;
    let endIndex = page * 9;
+   
+   // select the UL element to place the student data there and remove any previously existing students
+
    let studentList = document.querySelector(".student-list");
    studentList.innerHTML = "";
+   
+   
+   // loop that runs over the list parameter and a conditional statement that determines the indeces for the students. 
+   // For these a template literatl is created and placed into the DOM
+   
    for (let i = 0; i < list.length; i++) {
-
       if ( i >= startIndex && i < endIndex ) {
          let studentItem = `
          <li class="student-item">
@@ -35,7 +44,7 @@ function showPage(list, page) {
            <span class="email">"${list[i].email}"</span>
          </div>
          <div class="joined-details">
-           <span class="date">Joined ${list[i].registered.date} | Age: ${list[i].registered.age}</span>
+           <span class="date">Joined ${list[i].registered.date}</span>
          </div>
          </li>
          `;
@@ -43,17 +52,18 @@ function showPage(list, page) {
       } 
    }
 }
+
+// calling the function to test the code
 showPage(data, 1);
 
 
 /*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
+create the following function for the pagination buttons
 */
 
 function paginationButton(list) {
    console.log(list);
-   let numberValue = Math.ceil(list.length / 9);
+   let numberValue = Math.ceil(list.length / 9); // calculates the number of pagination buttons
    let selectUL = document.querySelector(".link-list");
    console.log(numberValue);
    selectUL.innerHTML = "";
@@ -68,21 +78,74 @@ function paginationButton(list) {
    let selectButton = document.querySelector('button');
    selectButton.className = 'active';
    console.log(selectButton);
-   // create an Event Listener
+   
 
-   selectUL.addEventListener('click', () => {
-      if(EventTarget.tagName === 'BUTTON') {
+   // Event Listener with a conditional, that checks if the event target's tag name is a button
+   // if it's true, than the active class of the previous button is removed, and set to the button which was clicked
+
+   selectUL.addEventListener('click', (event) => {
+      if(event.target.tagName === 'BUTTON') {
          let selectButton = document.querySelector('.active');
          selectButton.className = '';
-         EventTarget.className = 'active';
-         showPage(list, EventTarget.textContent);
+         event.target.className = 'active';
+         showPage(list, event.target.textContent);
          console.log(selectButton);
       }
    });
 }
 
 
-// Call functions
+// function call
 
 paginationButton(data);
 showPage(data, 1);
+
+
+/*
+search bar
+*/
+
+let accessHeader = document.querySelector('.header');
+
+let searchbar = `
+   <label for="search" class="student-search">
+  <input id="search" placeholder="Search by name...">
+  <button type="button" id="search-button"><img src="img/icn-search.svg" alt="Search icon"></button>
+   </label>
+`
+accessHeader.insertAdjacentHTML('beforeend', searchbar);
+
+const searchButton = document.querySelector('#search-button');
+
+// functionality of the search field
+function searchPerformance(searchInput, data) {
+   console.log(searchInput);
+   console.log(data);
+
+   for (let i = 0; i < data.length; i++) {
+      data[i].className = '';
+      if (searchInput.value.length !== 0 && data[i].textContent.toLowerCase() === searchInput.value.toLowerCase()) {
+         data[i].className = 'match';
+      }
+   }
+}
+
+let searchFieldInput = document.getElementById('search');
+
+searchButton.addEventListener('click', (event) => {
+   event.preventDefault();
+  searchPerformance(searchButton, data);
+ 
+   console.log('Submit button is functional!');
+ });
+ 
+ /* submit listener */
+ searchFieldInput.addEventListener('keyup', () => {
+ 
+   // Invoke your search function here - Arguments: search, tableCells
+ searchPerformance(searchButton, data);
+ 
+   console.log('Keyup event on the Search input is functional!');
+ });
+
+
