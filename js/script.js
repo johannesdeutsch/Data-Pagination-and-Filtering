@@ -116,34 +116,46 @@ let searchbar = `
 accessHeader.insertAdjacentHTML('beforeend', searchbar);
 
 const searchButton = document.querySelector('#search-button');
+let searchFieldInput = document.getElementById('search');
 
 // functionality of the search field
 function searchPerformance(searchInput, data) {
    console.log(searchInput);
    console.log(data);
 
+   let matches = [];
+   
+  
+
    for (let i = 0; i < data.length; i++) {
       data[i].className = '';
       if (searchInput.value.length !== 0 && data[i].textContent.toLowerCase() === searchInput.value.toLowerCase()) {
-         data[i].className = 'match';
+      data[i].className = 'match';
+      }
+      data.includes(searchFieldInput);
+      let searchNames = `${data[i].name.first} ${data[i].name.last}`;
+      
+      if (searchNames.toLowerCase.includes(searchInput.value.toLowerCase())) {
+         matches.push(data[i]);
       }
    }
+   showPage(matches);
+   paginationButton(matches);
 }
 
-let searchFieldInput = document.getElementById('search');
 
+// EventListener reacting to clicks//
 searchButton.addEventListener('click', (event) => {
    event.preventDefault();
-  searchPerformance(searchButton, data);
+   searchPerformance(searchInput, data);
  
    console.log('Submit button is functional!');
  });
  
- /* submit listener */
- searchFieldInput.addEventListener('keyup', () => {
- 
-   // Invoke your search function here - Arguments: search, tableCells
- searchPerformance(searchButton, data);
+ // EventListener reacting to keys//
+searchFieldInput.addEventListener('keyup', (event) => {
+   event.preventDefault();
+   searchPerformance(searchInput, data);
  
    console.log('Keyup event on the Search input is functional!');
  });
